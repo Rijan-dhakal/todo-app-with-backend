@@ -5,9 +5,9 @@ import { getTodo } from "../controllers/todos.controller.js";
 
 const todoRouter = Router()
 
-todoRouter.get("/", getUserTodo) // render all todos for a specific user
+todoRouter.get("/", authorize, getUserTodo) // render all todos for a specific user
 
-todoRouter.post("/", authorize, createTodo)
+todoRouter.post("/", authorize, createTodo)   // create todo for loggedin user
 
   
 todoRouter.get("/:id", authorize, getTodo)   // render a specific todo

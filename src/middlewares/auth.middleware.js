@@ -12,7 +12,7 @@ const authorize = async (req, res, next) => {
     }
 
     if (!token) {
-  return res.status(401).json({ message: "Authorization token missing" });
+   return res.status(401).json({ message: "Authorization token missing", error:"Unauthorized" });
 }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

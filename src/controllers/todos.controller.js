@@ -1,4 +1,5 @@
 import Todo from "../models/todo.model.js";
+import { customError } from "../utils/customError.js";
 
 export const createTodo = async (req, res, next) => {
     try{
@@ -29,6 +30,7 @@ export const getUserTodo = async (req, res, next) => {
             });
         }
         const todos = await Todo.find({ user: req.user._id });
+        if(!todos || todos.length === 0) customError("Todos not found. Create one to view", 404);
 
         res.status(200).json({
             success: true,
