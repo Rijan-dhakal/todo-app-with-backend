@@ -65,6 +65,8 @@ export const register = async (req, res, next) => {
       .then(() => console.log("OTP email sent successfully"))
       .catch((error) => console.error("Error sending OTP email:", error));
 
+    
+
     res.status(201).json({
       success: true,
       message: "User created. Please verify OTP sent to your email.",
@@ -111,6 +113,12 @@ export const login = async (req, res, next) => {
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    })
+
     // sending the response
     res.status(200).json({
       success: true,
@@ -118,7 +126,6 @@ export const login = async (req, res, next) => {
       user: {
         userId: existingUser._id,
         email,
-        token,
       },
     });
   } catch (error) {

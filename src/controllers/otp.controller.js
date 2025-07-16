@@ -4,8 +4,9 @@ import jwt from 'jsonwebtoken'
 
 export const verifyOtp = async (req, res, next) => {
     try {
+        const userId = req.cookies.userid
         
-        const {userId, otp} = req.body
+        const { otp} = req.body
 
         // checking if all fields are valid
 
@@ -34,10 +35,15 @@ export const verifyOtp = async (req, res, next) => {
 
         const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN})
 
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
         res.status(201).json({
             success: true,
             message:"OTP verification successful, User is now logged in",
-            token,
             user:{
                 _id:user._id,
                 email: user.email,

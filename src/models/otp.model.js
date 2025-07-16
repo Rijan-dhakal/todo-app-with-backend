@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import User from "./user.model.js";
+
 const otpSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -7,18 +9,39 @@ const otpSchema = new mongoose.Schema({
     },
     otp: {
         type: String,
-        // required: true,
+        required: true,
     },
     createdAt: {
         type: Date,
         default: Date.now,
-        expires: "15m", // otp will expire after 15mins
+        expires: 900, 
     },
     verified: {
         type: Boolean,  
         default: false,
-    },
+    }
 }, { timestamps: true });
+
+
+otpSchema.statics.cleanupExpiredUsers = async function() {
+    try {
+        const expiredOTPs = await this.find({
+            verified: false,
+            createdAt: { $lt: new Date(Date.now() - 15 * 60 * 1000) }
+        });
+
+        for (const otp of expiredOTPs) {
+            await User.findByIdAndDelete(otp.userId);
+            await this.findByIdAndDelete(otp._id);
+        }
+        
+        if (expiredOTPs.length > 0) {
+            console.log(` ${expiredOTPs.length} expired users removed`);
+        }
+    } catch (error) {
+        console.error('Error during cleanup:', error);
+    }
+};
 
 const OTP = mongoose.model("OTP", otpSchema)
 export default OTP
