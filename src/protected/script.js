@@ -32,17 +32,13 @@ let local = [];
             console.error('Failed to fetch todos:', response.status, response.statusText);
             
             if (response.status === 401) {
-                console.log('User not authenticated, using localStorage');
+                console.log('User not authenticated');
             }
             
-            local = JSON.parse(localStorage.getItem('list')) || [];
-            displayList(local);
         }
     } catch (error) {
         console.error('Error fetching todos:', error);
         
-        local = JSON.parse(localStorage.getItem('list')) || [];
-        displayList(local);
     }
 })();
 
@@ -80,17 +76,9 @@ const receiveInput = async function(e){
             }
         } else {
             console.error('Failed to create todo:', response.status);
-            
-            local.push({text: entered, isCompleted: false});
-            localStorage.setItem('list', JSON.stringify(local));
-            displayList(local);
         }
     } catch (error) {
         console.error('Error creating todo:', error);
-        
-        local.push({text: entered, isCompleted: false});
-        localStorage.setItem('list', JSON.stringify(local));
-        displayList(local);
     }
 }
 
@@ -128,7 +116,7 @@ const removeItem = async function(e){
     const index = Number(target.dataset.index);
     
     if (todoId) {
-        // Delete from API
+        
         try {
             const response = await fetch(`http://localhost:3001/api/todos/${todoId}`, {
                 method: 'DELETE',
@@ -148,11 +136,7 @@ const removeItem = async function(e){
             console.error('Error deleting todo:', error);
         }
     } else {
-        // Fallback to localStorage
-        local = JSON.parse(localStorage.getItem('list')) || [];
-        local.splice(index, 1);
-        localStorage.setItem('list', JSON.stringify(local));
-        displayList(local);
+        console.log('No todo ID found');
     }
 }
 
@@ -189,10 +173,7 @@ const toggleComplete = async function(e){
             console.error('Error updating todo:', error);
         }
     } else {
-        
-        local[index].isCompleted = newCompletedState;
-        localStorage.setItem('list', JSON.stringify(local));
-        displayList(local);
+        console.log('No todo ID found');
     }
 }
 
