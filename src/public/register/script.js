@@ -11,43 +11,56 @@ form.addEventListener("submit", (e) => {
   errorBox.classList.add("none");
   successBox.textContent = "";
   successBox.classList.add("none");
+
   const isValid = validateInput(username.value, email.value, password.value);
- if(!isValid){
-    alert("Please refresh and try again")
- }
-  sendDetails(username.value, email.value, password.value)
+  if (!isValid) {
+    alert("Please refresh and try again");
+    return;
+  }
+
+  sendDetails(username.value, email.value, password.value);
 });
 
 const sendDetails = async (username, email, password) => {
   try {
-    const response = await fetch("http://localhost:3001/api/auth/register", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    successBox.classList.remove("none");
+    errorBox.classList.add("none");
+    successBox.textContent = "Registering.. Reload the page if it takes too long";
+
+     await axios.post(
+      "http://localhost:3001/api/auth/register",
+      {
         username,
         email,
         password,
-      }),
-    });
+      },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-        successBox.classList.remove('none')
-        errorBox.classList.add('none')
-        successBox.textContent = "Registering.. Reload the page if it takes too long";
+    // if(response.status)
 
-    if(response.status >= 200 && response.status <=299){
-        successBox.classList.remove('none')
-        errorBox.classList.add('none')
-        successBox.textContent = "Registered Sucessfully";
-    }
+    successBox.classList.remove("none");
+    errorBox.classList.add("none");
+    successBox.textContent = "Registered Successfully.. Redirecting within 2 seconds";
+
+    setTimeout(() => {
+      window.location.replace("http://localhost:3001/otp");
+    }, 1000);
 
   } catch (error) {
-    successBox.classList.add('none')
-        errorBox.classList.remove('none')
-        errorBox.textContent = error.message;
-    console.error(error);
+    successBox.classList.add("none");
+    errorBox.classList.remove("none");
+
+    if (error.response && error.response.data && error.response.data.message) {
+      errorBox.textContent = error.response.data.message;
+    } else {
+      errorBox.textContent = error.message || "An unexpected error occurred";
+    }
   }
 };
 
@@ -71,7 +84,6 @@ const validateInput = (username, email, password) => {
 };
 
 const errorToggle = (err) => {
-
   errorBox.classList.remove("none");
   successBox.classList.add("none");
   errorBox.textContent = err;

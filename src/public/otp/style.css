@@ -113,6 +113,16 @@ input[type="text"]:focus {
     transform: translateY(0);
 }
 
+.msg-box{
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.none{
+    display: none;
+}
+
 @media (max-width: 600px) {
     body {
         padding: 1.5rem;

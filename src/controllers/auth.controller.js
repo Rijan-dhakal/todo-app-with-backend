@@ -65,7 +65,11 @@ export const register = async (req, res, next) => {
       .then(() => console.log("OTP email sent successfully"))
       .catch((error) => console.error("Error sending OTP email:", error));
 
-    
+    res.cookie('userid', newUser._id, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 15 * 60 * 1000
+    })
 
     res.status(201).json({
       success: true,

@@ -40,6 +40,8 @@ app.use('/todo',authorize, express.static(path.join(__dirname, 'protected')));
 
 app.use('/register', express.static(path.join(__dirname, 'public', 'register')));
 
+app.use('/otp', express.static(path.join(__dirname, 'public', 'otp')));
+
  app.get('/',authorize, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'todoMain','index.html'));
   });
