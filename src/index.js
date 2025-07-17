@@ -14,6 +14,8 @@ import OTP from './models/otp.model.js';
 dotenv.config();
 const app = express()
 
+const PORT = process.env.PORT || 3000
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -48,9 +50,9 @@ setInterval(async () => {
     } catch (error) {
         console.error('Cleanup failed:', error);
     }
-}, 16 * 60 * 1000); 
+}, 7 * 60 * 1000); 
 
-app.listen(process.env.PORT, ()=>{
+app.listen(PORT, ()=>{
     connectDB();
-    console.log(`App is running in http://localhost:${process.env.PORT}`);
+    console.log(`App is running in http://localhost:${PORT}`);
 })

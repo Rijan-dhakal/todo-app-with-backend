@@ -27,7 +27,7 @@ otpSchema.statics.cleanupExpiredUsers = async function() {
     try {
         const expiredOTPs = await this.find({
             verified: false,
-            createdAt: { $lt: new Date(Date.now() - 15 * 60 * 1000) }
+            createdAt: { $lt: new Date(Date.now() - 13 * 60 * 1000) }
         });
 
         for (const otp of expiredOTPs) {
