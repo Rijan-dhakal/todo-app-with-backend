@@ -4,7 +4,7 @@ const todoSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true,
-    minlength: [5, "Content must be at least 5 characters long"],
+    minlength: [1, "Content must be at least 1 characters long"],
     maxlength: [500, "Content must be at most 500 characters long"],
   },
   completed: {
