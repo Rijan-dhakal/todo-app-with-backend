@@ -12,7 +12,6 @@ export const sendReminderEmail = async ({ to, otpCode }) => {
   // Prepare the email content
   const mailInfo = {
     otpCode: otpCode, // OTP code to be sent
-    email: to,        // Email of the recipient
   }
 
   // Generate the email body and subject

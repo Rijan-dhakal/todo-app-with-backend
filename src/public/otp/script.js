@@ -4,8 +4,8 @@ const msg = document.querySelector(".msg-box");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  msg.classList.add("none");
-  msg.textContent = "";
+  msg.classList.remove("none");
+  msg.textContent = "Verifying.. Reload the page if it takes too long";
 
   (async () => {
     try {

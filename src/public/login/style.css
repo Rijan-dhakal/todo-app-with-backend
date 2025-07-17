@@ -64,6 +64,7 @@ label {
 }
 
 input[type="email"],
+input[type="text"],
 input[type="password"] {
     padding: 0.85rem 1rem;
     background-color: var(--input-bg);
@@ -76,6 +77,7 @@ input[type="password"] {
 }
 
 input[type="email"]:focus,
+input[type="text"]:focus,
 input[type="password"]:focus {
     outline: none;
     border-color: var(--primary-color);
@@ -109,14 +111,6 @@ input[type="password"]:focus {
 
 .password-toggle:hover {
     color: var(--primary-color);
-}
-
-.password-toggle .fa-eye-slash {
-    display: none;
-}
-
-.password-toggle.active .fa-eye {
-    display: none;
 }
 
 .password-toggle.active .fa-eye-slash {

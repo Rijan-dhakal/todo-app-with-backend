@@ -42,6 +42,8 @@ app.use('/register', express.static(path.join(__dirname, 'public', 'register')))
 
 app.use('/otp', express.static(path.join(__dirname, 'public', 'otp')));
 
+app.use('/login', express.static(path.join(__dirname, 'public', 'login')));
+
  app.get('/',authorize, (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'todoMain','index.html'));
   });
@@ -55,7 +57,7 @@ setInterval(async () => {
     } catch (error) {
         console.error('Cleanup failed:', error);
     }
-}, 15 * 60 * 1000); 
+}, 16 * 60 * 1000); 
 
 app.listen(process.env.PORT, ()=>{
     connectDB();

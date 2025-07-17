@@ -18,7 +18,6 @@ let local = [];
         
         if (response.ok) {
             const result = await response.json();
-            console.log('Todos fetched:', result);
             if (result.success && result.data) {
 
                 local = result.data.map(todo => ({

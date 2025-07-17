@@ -22,7 +22,9 @@ const authorize = async (req, res, next) => {
 
     next();
   } catch (error) {
-    res.status(401).json({ message: "Unauthorized", error: error.message });
+    // res.status(401).json({ message: "Unauthorized", error: error.message });
+    return res.redirect('/register')
+
   }
 };
 

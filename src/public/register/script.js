@@ -42,7 +42,7 @@ const sendDetails = async (username, email, password) => {
       }
     );
 
-    // if(response.status)
+    
 
     successBox.classList.remove("none");
     errorBox.classList.add("none");
@@ -50,7 +50,7 @@ const sendDetails = async (username, email, password) => {
 
     setTimeout(() => {
       window.location.replace("http://localhost:3001/otp");
-    }, 1000);
+    }, 1500);
 
   } catch (error) {
     successBox.classList.add("none");
@@ -106,7 +106,6 @@ const passwordToggle = () => {
         icon.classList.toggle("fa-eye-slash");
       }
 
-      target.classList.toggle("active");
     });
   });
 };
