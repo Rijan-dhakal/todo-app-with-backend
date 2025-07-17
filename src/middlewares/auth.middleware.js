@@ -16,7 +16,7 @@ const authorize = async (req, res, next) => {
 
     const user = await User.findById(decoded.userId).select("-password");
 
-    if (!user) return res.status(401).json({ message: "Unauthorized" });
+    if (!user) return res.redirect('/register')     //res.status(401).json({ message: "Unauthorized" });
 
     req.user = user;
 
