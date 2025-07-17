@@ -4,40 +4,33 @@ const addBtn = document.querySelector('.add-btn');
 const empty = document.querySelector('.empty-state');
 const listContainer = document.querySelector('.todo-list')
 
+const domain = 'http://localhost:3001'
+
 let local = [];
 
 (async ()=>{
     try {
-        const response = await fetch("http://localhost:3001/api/todos", {
-            method: 'GET',
-            credentials: 'include', 
+        const response = await axios.get(`${domain}/api/todos`, {
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
             }
         });
         
-        if (response.ok) {
-            const result = await response.json();
-            if (result.success && result.data) {
-
-                local = result.data.map(todo => ({
-                    id: todo._id,
-                    text: todo.content,
-                    isCompleted: todo.completed
-                }));
-                displayList(local);
-            }
-        } else {
-            console.error('Failed to fetch todos:', response.status, response.statusText);
-            
-            if (response.status === 401) {
-                console.log('User not authenticated');
-            }
-            
+        if (response.data.success && response.data.data) {
+            local = response.data.data.map(todo => ({
+                id: todo._id,
+                text: todo.content,
+                isCompleted: todo.completed
+            }));
+            displayList(local);
         }
     } catch (error) {
-        console.error('Error fetching todos:', error);
+        console.error('Error fetching todos');
         
+        if (error.response?.status === 401) {
+            console.log('User not authenticated');
+        }
     }
 })();
 
@@ -49,35 +42,27 @@ const receiveInput = async function(e){
     if(!entered) return;
     
     try {
-        const response = await fetch("http://localhost:3001/api/todos", {
-            method: 'POST',
-            credentials: 'include',
+        const response = await axios.post(`${domain}/api/todos`, {
+            content: entered,
+            completed: false
+        }, {
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: entered,
-                completed: false
-            })
+            }
         });
         
-        if (response.ok) {
-            const result = await response.json();
-            if (result.success && result.data) {
-                
-                const newTodo = {
-                    id: result.data._id,
-                    text: result.data.content,
-                    isCompleted: result.data.completed
-                };
-                local.push(newTodo);
-                displayList(local);
-            }
-        } else {
-            console.error('Failed to create todo:', response.status);
+        if (response.data.success && response.data.data) {
+            const newTodo = {
+                id: response.data.data._id,
+                text: response.data.data.content,
+                isCompleted: response.data.data.completed
+            };
+            local.push(newTodo);
+            displayList(local);
         }
     } catch (error) {
-        console.error('Error creating todo:', error);
+        console.error('Error creating todo');
     }
 }
 
@@ -115,24 +100,18 @@ const removeItem = async function(e){
     const index = Number(target.dataset.index);
     
     if (todoId) {
-        
         try {
-            const response = await fetch(`http://localhost:3001/api/todos/${todoId}`, {
-                method: 'DELETE',
-                credentials: 'include',
+            await axios.delete(`${domain}/api/todos/${todoId}`, {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
             
-            if (response.ok) {
-                local.splice(index, 1);
-                displayList(local);
-            } else {
-                console.error('Failed to delete todo:', response.status);
-            }
+            local.splice(index, 1);
+            displayList(local);
         } catch (error) {
-            console.error('Error deleting todo:', error);
+            console.error('Error deleting todo');
         }
     } else {
         console.log('No todo ID found');
@@ -149,27 +128,20 @@ const toggleComplete = async function(e){
     const newCompletedState = !local[index].isCompleted;
     
     if (todoId) {
-        
         try {
-            const response = await fetch(`http://localhost:3001/api/todos/${todoId}`, {
-                method: 'PATCH',
-                credentials: 'include',
+            await axios.patch(`${domain}/api/todos/${todoId}`, {
+                completed: newCompletedState
+            }, {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    completed: newCompletedState
-                })
+                }
             });
             
-            if (response.ok) {
-                local[index].isCompleted = newCompletedState;
-                displayList(local);
-            } else {
-                console.error('Failed to update todo:', response.status);
-            }
+            local[index].isCompleted = newCompletedState;
+            displayList(local);
         } catch (error) {
-            console.error('Error updating todo:', error);
+            console.error('Error updating todo');
         }
     } else {
         console.log('No todo ID found');

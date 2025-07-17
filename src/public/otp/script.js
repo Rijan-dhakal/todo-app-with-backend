@@ -2,6 +2,8 @@ const otp = document.querySelector("#otp");
 const form = document.querySelector(".otp-form");
 const msg = document.querySelector(".msg-box");
 
+const domain = 'http://localhost:3001'
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   msg.classList.remove("none");
@@ -10,7 +12,7 @@ form.addEventListener("submit", (e) => {
   (async () => {
     try {
        await axios.post(
-        "http://localhost:3001/api/auth/otp",
+        `${domain}/api/auth/otp`,
         { otp: otp.value },
         {
           withCredentials: true,
@@ -24,7 +26,7 @@ form.addEventListener("submit", (e) => {
       msg.classList.remove("none");
 
       setTimeout(() => {
-        window.location.replace("http://localhost:3001/");
+        window.location.replace(`${domain}/`);
       }, 1000);
 
     } catch (error) {

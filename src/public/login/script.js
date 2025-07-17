@@ -3,6 +3,8 @@ const password = document.querySelector('#password')
 const msgBox = document.querySelector('.msg-box')
 const form = document.querySelector('.login-form')
 
+const domain = 'http://localhost:3001'
+
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
 
@@ -40,7 +42,7 @@ const sendDetails = async (email, password) => {
     errorToggle('Loggingin.. Please reload the page if it takes too long')
     try {
 
-        await axios.post('http://localhost:3001/api/auth/login', {
+        await axios.post(`${domain}/api/auth/login`, {
             email,
             password
         },
@@ -54,7 +56,7 @@ const sendDetails = async (email, password) => {
 
     errorToggle("Logged In.. Redirecting within 2 seconds")
     setTimeout(() => {
-        window.location.replace('http://localhost:3001')
+        window.location.replace(`${domain}`)
     }, 1500);
 
     } catch (error) {

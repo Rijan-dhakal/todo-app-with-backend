@@ -22,7 +22,7 @@ const otpSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-
+ 
 otpSchema.statics.cleanupExpiredUsers = async function() {
     try {
         const expiredOTPs = await this.find({

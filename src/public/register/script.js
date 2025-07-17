@@ -5,6 +5,8 @@ const form = document.querySelector(".register-form");
 const errorBox = document.querySelector(".error");
 const successBox = document.querySelector(".success");
 
+const domain = 'http://localhost:3001'
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   errorBox.textContent = "";
@@ -28,7 +30,7 @@ const sendDetails = async (username, email, password) => {
     successBox.textContent = "Registering.. Reload the page if it takes too long";
 
      await axios.post(
-      "http://localhost:3001/api/auth/register",
+      `${domain}/api/auth/register`,
       {
         username,
         email,
@@ -49,7 +51,7 @@ const sendDetails = async (username, email, password) => {
     successBox.textContent = "Registered Successfully.. Redirecting within 2 seconds";
 
     setTimeout(() => {
-      window.location.replace("http://localhost:3001/otp");
+      window.location.replace(`${domain}/otp`);
     }, 1500);
 
   } catch (error) {
