@@ -33,8 +33,7 @@ const __dirname = path.dirname(__filename);
 
 app.use("/api/auth", authRouter);
 
-
-app.use("/api/todos", todosRouter)
+app.use("/api/todos", authorize, todosRouter)
 
 app.use('/todo',authorize, express.static(path.join(__dirname, 'protected')));
 

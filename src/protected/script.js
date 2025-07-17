@@ -26,10 +26,14 @@ let local = [];
             displayList(local);
         }
     } catch (error) {
-        console.error('Error fetching todos');
+        console.error('Error fetching todos:', error);
+        console.error('Error details:', error.response?.data);
         
         if (error.response?.status === 401) {
-            console.log('User not authenticated');
+            console.log('User not authenticated.. Redirecting to login');
+            window.location.replace(`${domain}/login`);
+        } else if (error.response?.status === 404) {
+            console.log('Todos endpoint not found');
         }
     }
 })();
@@ -62,7 +66,15 @@ const receiveInput = async function(e){
             displayList(local);
         }
     } catch (error) {
-        console.error('Error creating todo');
+        console.error('Error creating todo:', error);
+        console.error('Error details:', error.response?.data);
+        
+        if (error.response?.status === 401) {
+            console.log('User not authenticated.. Redirecting to login');
+            window.location.replace(`${domain}/login`);
+        } else if (error.response?.status === 400) {
+            console.log('Bad request - check todo content');
+        }
     }
 }
 
@@ -111,7 +123,13 @@ const removeItem = async function(e){
             local.splice(index, 1);
             displayList(local);
         } catch (error) {
-            console.error('Error deleting todo');
+            console.error('Error deleting todo:', error);
+            console.error('Error details:', error.response?.data);
+            
+            if (error.response?.status === 401) {
+                console.log('User not authenticated.. Redirecting to login');
+                window.location.replace(`${domain}/login`);
+            }
         }
     } else {
         console.log('No todo ID found');
@@ -141,7 +159,13 @@ const toggleComplete = async function(e){
             local[index].isCompleted = newCompletedState;
             displayList(local);
         } catch (error) {
-            console.error('Error updating todo');
+            console.error('Error updating todo:', error);
+            console.error('Error details:', error.response?.data);
+            
+            if (error.response?.status === 401) {
+                console.log('User not authenticated.. Redirecting to login');
+                window.location.replace(`${domain}/login`);
+            }
         }
     } else {
         console.log('No todo ID found');
