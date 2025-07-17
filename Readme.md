@@ -1,4 +1,4 @@
-# Todo Backend Application (Under Development)
+# Todo Backend Application
 
 A full-stack todo application with user authentication and email verification built with Node.js, Express, and MongoDB.
 
@@ -10,6 +10,13 @@ A full-stack todo application with user authentication and email verification bu
 - CRUD operations for todos
 - Real-time todo management
 - Automatic cleanup of unverified users
+
+## Missing Features
+
+- Forgot password functionality
+- Change password feature
+- User profile management
+- Password reset
 
 ## Tech Stack
 
