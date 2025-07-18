@@ -32,7 +32,7 @@ A full-stack todo application with user authentication and email verification bu
 1. Clone the repository
    ```bash
    git clone https://github.com/Rijan-dhakal/todo-app-with-backend.git
-   cd Todo
+   cd todo-app-with-backend
    ```
 
 2. Install dependencies
