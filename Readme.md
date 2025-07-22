@@ -2,6 +2,12 @@
 
 A full-stack todo application with user authentication and email verification built with Node.js, Express, and MongoDB.
 
+## 🚀 Live Demo
+
+**🌐 [Live Demo](https://private-todo.onrender.com)**  
+> URL : `https://private-todo.onrender.com`
+
+
 ## Features
 
 - User registration and login with email verification
