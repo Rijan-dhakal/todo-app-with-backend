@@ -101,6 +101,8 @@ export const login = async (req, res, next) => {
       throw error;
     }
 
+    if(existingUser.isVerified == false) customError("User is not verified.", 400);
+
     // checking if password is correct
     const isPasswordValid = await bcrypt.compare(
       password,
